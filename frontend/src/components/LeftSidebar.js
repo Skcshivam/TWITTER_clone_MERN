@@ -5,8 +5,8 @@ import { FaRegUserCircle } from "react-icons/fa";
 import { IoIosNotifications } from "react-icons/io";
 import { FaBookmark } from "react-icons/fa6";
 import { RiLogoutCircleRLine } from "react-icons/ri";
-
 import twitter from "../Images/64cebe06bc8437de66e41758_X-EverythingApp-Logo-Black-Twitter.jpg";
+import { Link } from "react-router-dom";
 function LeftSidebar() {
   return (
     <div className="w-[20%]">
@@ -20,12 +20,15 @@ function LeftSidebar() {
           />
         </div>
         <div className="my-4">
-          <div className="flex items-center my-2 px-4 py-2 hover:bg-gray-200 rounded-full hover:cursor-pointer">
+          <Link
+            to="/"
+            className="flex items-center my-2 px-4 py-2 hover:bg-gray-200 rounded-full hover:cursor-pointer"
+          >
             <div>
               <IoMdHome size={"24px"} />
             </div>
             <h1 className="font-bold text-lg ml-2">Home</h1>
-          </div>
+          </Link>
 
           <div className="flex items-center my-2 px-4 py-2 hover:bg-gray-200 rounded-full hover:cursor-pointer">
             <div>
@@ -41,12 +44,15 @@ function LeftSidebar() {
             <h1 className="font-bold text-lg ml-2">Notifications</h1>
           </div>
 
-          <div className="flex items-center my-2 px-4 py-2 hover:bg-gray-200 rounded-full hover:cursor-pointer">
+          <Link
+            to="/profile"
+            className="flex items-center my-2 px-4 py-2 hover:bg-gray-200 rounded-full hover:cursor-pointer"
+          >
             <div>
               <FaRegUserCircle size={"24px"} />
             </div>
             <h1 className="font-bold text-lg ml-2">Profile</h1>
-          </div>
+          </Link>
 
           <div className="flex items-center my-2 px-4 py-2 hover:bg-gray-200 rounded-full hover:cursor-pointer">
             <div>
