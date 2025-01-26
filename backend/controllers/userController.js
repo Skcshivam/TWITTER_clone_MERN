@@ -201,7 +201,7 @@ export const unfollow = async (req, res) => {
     const loggedInUser = await User.findById(loggedInUserId); //shivam
     const user = await User.findById(userId); // shubham
 
-    if (!user.following.includes(loggedInUserId)) {
+    if (loggedInUser.following.includes(userId)) {
       await user.updateOne({ $pull: { followers: loggedInUserId } });
       await loggedInUser.updateOne({ $pull: { following: userId } });
     } else {
