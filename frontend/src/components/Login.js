@@ -1,8 +1,46 @@
 import React, { useState } from "react";
 import twitter from "../Images/64cebe06bc8437de66e41758_X-EverythingApp-Logo-Black-Twitter.jpg";
+import { TWEET_API_END_POINT } from "../utils/constant.js";
+import { USER_API_END_POINT } from "../utils/constant.js";
+import axios from "axios";
 
 function Login() {
   const [isLogin, setIsLogin] = useState(true);
+  const [Name, setName] = useState("");
+  const [Username, setUsername] = useState("");
+  const [Email, setEmail] = useState("");
+  const [Password, setPassword] = useState("");
+
+  const submitHandler = async (e) => {
+    e.preventDefault();
+    //  console.log(name, username, email, password);
+    if (isLogin) {
+      //login
+      try {
+        const res = await axios.post(`${USER_API_END_POINT}/login`, {
+          Email,
+          Password,
+        });
+        console.log(res);
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      //signUp
+      try {
+        const res = await axios.post(`${USER_API_END_POINT}/register`, {
+          Name,
+          Username,
+          Email,
+          Password,
+        });
+        console.log(res);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+
   const LoginSignupHandler = () => {
     setIsLogin(!isLogin);
   };
@@ -24,17 +62,25 @@ function Login() {
           <h1 className="mt-4 mb-2 text-2xl font-bold">
             {isLogin ? "Login" : "Signup"}
           </h1>
-          <form className="flex flex-col w-[60%]">
+          <form className="flex flex-col w-[60%]" onSubmit={submitHandler}>
             {!isLogin && (
               <>
                 <input
                   type="text"
+                  value={Name}
+                  onChange={(e) => {
+                    setName(e.target.value);
+                  }}
                   placeholder="Name"
                   className="border border-gray-500 outline-blue-500 rounded-lg px-3 py-2 m-1 
                 font-semibold"
                 />
                 <input
                   type="text"
+                  value={Username}
+                  onChange={(e) => {
+                    setUsername(e.target.value);
+                  }}
                   placeholder="UserName"
                   className="border border-gray-500 outline-blue-500 rounded-lg px-3 py-2 m-1
                 font-semibold"
@@ -43,11 +89,19 @@ function Login() {
             )}
             <input
               type="email"
+              value={Email}
+              onChange={(e) => {
+                setEmail(e.target.value);
+              }}
               placeholder="Email"
               className="border border-gray-500 outline-blue-500 rounded-lg px-3 py-2 m-1 font-semibold"
             />
             <input
               type="password"
+              value={Password}
+              onChange={(e) => {
+                setPassword(e.target.value);
+              }}
               placeholder="Password"
               className="border border-gray-500 outline-blue-500 rounded-lg px-3 py-2 m-1
               font-semibold"
