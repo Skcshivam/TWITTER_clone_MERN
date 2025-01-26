@@ -14,10 +14,7 @@ const tweetSchema = mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
     },
-    bookmark: {
-      type: Array,
-      default: [],
-    },
+    
   },
   { Timestamp: true }
 );
