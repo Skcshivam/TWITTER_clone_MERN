@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import twitter from "../Images/64cebe06bc8437de66e41758_X-EverythingApp-Logo-Black-Twitter.jpg";
-import { TWEET_API_END_POINT } from "../utils/constant.js";
+//import { TWEET_API_END_POINT } from "../utils/constant.js";
 import { USER_API_END_POINT } from "../utils/constant.js";
 import axios from "axios";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
   const [isLogin, setIsLogin] = useState(true);
@@ -10,6 +12,7 @@ function Login() {
   const [Username, setUsername] = useState("");
   const [Email, setEmail] = useState("");
   const [Password, setPassword] = useState("");
+  const Navigate = useNavigate();
 
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -17,24 +20,49 @@ function Login() {
     if (isLogin) {
       //login
       try {
-        const res = await axios.post(`${USER_API_END_POINT}/login`, {
-          Email,
-          Password,
-        });
+        const res = await axios.post(
+          `${USER_API_END_POINT}/login`,
+          {
+            Email,
+            Password,
+          },
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+            withCredentials: true,
+          }
+        );
         console.log(res);
+        if (res.data.success) {
+          Navigate("/");
+          toast.success(res.data.message);
+        }
       } catch (error) {
         console.log(error);
       }
     } else {
       //signUp
       try {
-        const res = await axios.post(`${USER_API_END_POINT}/register`, {
-          Name,
-          Username,
-          Email,
-          Password,
-        });
+        const res = await axios.post(
+          `${USER_API_END_POINT}/register`,
+          {
+            Name,
+            Username,
+            Email,
+            Password,
+          },
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+            withCredentials: true,
+          }
+        );
         console.log(res);
+        if (res.data.success) {
+          toast.success(res.data.message);
+        }
       } catch (error) {
         console.log(error);
       }
