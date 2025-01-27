@@ -4,7 +4,12 @@ import Feed from "./Feed";
 import RightSidebar from "./RightSidebar";
 import { Outlet } from "react-router-dom";
 
+import store from "../redux/store";
+
 function Home() {
+
+ 
+
   return (
     <div className="flex justify-between w-[80%] mx-auto">
       <LeftSidebar />

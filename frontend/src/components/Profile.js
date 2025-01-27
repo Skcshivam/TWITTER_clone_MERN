@@ -3,8 +3,14 @@ import Bgimg from "./1500x500.jpg";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { Link } from "react-router-dom";
 import Avatar from "react-avatar";
+import useGetProfile from "../hooks/useGetProfile";
+import { useSelector } from "react-redux";
 
 function Profile() {
+  const { user, profile } = useSelector((store) => store.user);
+
+  useGetProfile(user?._id);
+
   return (
     <div className="w-[50%] border-l border-r border-gray-250">
       <div>
@@ -16,7 +22,7 @@ function Profile() {
             <IoMdArrowRoundBack size="24px" />
           </Link>
           <div className="ml-2">
-            <h1 className="font-bold text-lg">Shivam</h1>
+            <h1 className="font-bold text-lg">{profile?.Name}</h1>
             <p className="text-gray-500 text-sm">10 Posts</p>
           </div>
         </div>
@@ -36,8 +42,8 @@ function Profile() {
         </div>
 
         <div className="m-4">
-          <h1 className="font-bold text-xl">Shivam</h1>
-          <p>@Shivam123</p>
+          <h1 className="font-bold text-xl">{profile?.Name}</h1>
+          <p>{`@${profile.Username}`}</p>
         </div>
         <div className="m-4 text-sm">
           <p>
