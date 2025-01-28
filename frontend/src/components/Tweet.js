@@ -3,8 +3,47 @@ import Avatar from "react-avatar";
 import { FaRegComment } from "react-icons/fa6";
 import { FaRegHeart } from "react-icons/fa";
 import { FaRegBookmark } from "react-icons/fa";
+import { AiTwotoneDelete } from "react-icons/ai";
+import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import toast from "react-hot-toast";
+import { getRefresh } from "../redux/tweetSlice";
+import { TWEET_API_END_POINT } from "../utils/constant";
 
 function Tweet({ tweet }) {
+  const { user } = useSelector((store) => store.user);
+
+  const dispatch = useDispatch();
+  const likeOrDislikeHandler = async (id) => {
+    try {
+      const res = await axios.put(
+        `${TWEET_API_END_POINT}/like/${id}`,
+        { id: user?._id },
+        {
+          withCredentials: true,
+        }
+      );
+      console.log(res);
+      dispatch(getRefresh());
+      toast.success(res.data.message);
+    } catch (error) {
+      toast.success(error.response.data.message);
+      console.log(error);
+    }
+  };
+
+  const deleteTweetHandler = async (id) => {
+    try {
+      axios.defaults.withCredentials = true;
+      const res = await axios.delete(`${TWEET_API_END_POINT}/delete/${id}`);
+      console.log(res);
+      dispatch(getRefresh());
+      toast.success(res.data.message);
+    } catch (error) {
+      toast.success(error.response.data.message);
+      console.log(error);
+    }
+  };
   return (
     <div className="border-b border-gray-200">
       <div>
@@ -31,7 +70,10 @@ function Tweet({ tweet }) {
                 <p>0</p>
               </div>
               <div className="flex items-center">
-                <div className="p-2 hover:bg-red-200 cursor-pointer rounded-full">
+                <div
+                  onClick={() => likeOrDislikeHandler(tweet?._id)}
+                  className="p-2 hover:bg-red-200 cursor-pointer rounded-full"
+                >
                   <FaRegHeart size="20px" />
                 </div>
                 <p>{tweet?.like?.length}</p>
@@ -42,6 +84,17 @@ function Tweet({ tweet }) {
                 </div>
                 <p>0</p>
               </div>
+
+              {user?._id === tweet?.userID && (
+                <div className="flex items-center">
+                  <div
+                    onClick={() => deleteTweetHandler(tweet?._id)}
+                    className="p-2 hover:bg-red-600 cursor-pointer rounded-full"
+                  >
+                    <AiTwotoneDelete size="20px" />
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
