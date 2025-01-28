@@ -165,7 +165,7 @@ export const getOtherUsers = async (req, res) => {
         message: "Currently do not have any users ",
       });
     }
-    return res.status(401).json({
+    return res.status(200).json({
       otherUsers,
     });
   } catch (error) {

@@ -1,15 +1,15 @@
 import React from "react";
 import Bgimg from "./1500x500.jpg";
 import { IoMdArrowRoundBack } from "react-icons/io";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Avatar from "react-avatar";
 import useGetProfile from "../hooks/useGetProfile";
 import { useSelector } from "react-redux";
 
 function Profile() {
   const { user, profile } = useSelector((store) => store.user);
-
-  useGetProfile(user?._id);
+  const { id } = useParams();
+  useGetProfile(id);
 
   return (
     <div className="w-[50%] border-l border-r border-gray-250">
@@ -43,7 +43,7 @@ function Profile() {
 
         <div className="m-4">
           <h1 className="font-bold text-xl">{profile?.Name}</h1>
-          <p>{`@${profile.Username}`}</p>
+          <p>{`@${profile?.Username}`}</p>
         </div>
         <div className="m-4 text-sm">
           <p>

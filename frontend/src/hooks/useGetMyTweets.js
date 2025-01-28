@@ -1,0 +1,24 @@
+import axios from "axios";
+import { TWEET_API_END_POINT } from "../utils/constant";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { getAllTweets } from "../redux/tweetSlice";
+
+const useGetMyTweets = (id) => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    const fetchMyTweets = async () => {
+      try {
+        const res = await axios.get(`${TWEET_API_END_POINT}/allTweets/${id}`, {
+          withCredentials: true,
+        });
+        dispatch(getAllTweets(res?.data?.tweet));
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchMyTweets();
+  }, [id]);
+};
+
+export default useGetMyTweets;

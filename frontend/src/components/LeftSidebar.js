@@ -7,7 +7,10 @@ import { FaBookmark } from "react-icons/fa6";
 import { RiLogoutCircleRLine } from "react-icons/ri";
 import twitter from "../Images/64cebe06bc8437de66e41758_X-EverythingApp-Logo-Black-Twitter.jpg";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+
 function LeftSidebar() {
+  const { user } = useSelector((store) => store.user);
   return (
     <div className="w-[20%]">
       <div>
@@ -45,7 +48,7 @@ function LeftSidebar() {
           </div>
 
           <Link
-            to="/profile"
+            to={`/profile/${user?._id}`}
             className="flex items-center my-2 px-4 py-2 hover:bg-gray-200 rounded-full hover:cursor-pointer"
           >
             <div>

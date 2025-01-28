@@ -4,7 +4,7 @@ import { FaRegComment } from "react-icons/fa6";
 import { FaRegHeart } from "react-icons/fa";
 import { FaRegBookmark } from "react-icons/fa";
 
-function Tweet() {
+function Tweet({ tweet }) {
   return (
     <div className="border-b border-gray-200">
       <div>
@@ -17,11 +17,11 @@ function Tweet() {
           />
           <div className="ml-2 w-full">
             <div className="flex items-center">
-              <h1 className="font-bold">Shivam</h1>
-              <p className="text-gray-500 text-sm ml-1">@Shivam123 . 1m</p>
+              <h1 className="font-bold">{tweet?.userDetails[0].Name}</h1>
+              <p className="text-gray-500 text-sm ml-1">{`@${tweet?.userDetails[0].Username} . 1m`}</p>
             </div>
             <div>
-              <p>Hellow developer lets connenct Together</p>
+              <p>{tweet.description}</p>
             </div>
             <div className="flex justify-between my-3">
               <div className="flex items-center">
@@ -34,7 +34,7 @@ function Tweet() {
                 <div className="p-2 hover:bg-red-200 cursor-pointer rounded-full">
                   <FaRegHeart size="20px" />
                 </div>
-                <p>0</p>
+                <p>{tweet?.like?.length}</p>
               </div>
               <div className="flex items-center">
                 <div className="p-2 hover:bg-yellow-200 cursor-pointer rounded-full">
