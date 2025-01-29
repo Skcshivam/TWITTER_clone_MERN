@@ -8,7 +8,9 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import toast from "react-hot-toast";
 import { getRefresh } from "../redux/tweetSlice";
-import { TWEET_API_END_POINT } from "../utils/constant";
+import { TWEET_API_END_POINT, USER_API_END_POINT } from "../utils/constant";
+import { getUser } from "../redux/userSlice";
+//import { timeSince } from "../utils/constant";
 
 function Tweet({ tweet }) {
   const { user } = useSelector((store) => store.user);
@@ -28,6 +30,28 @@ function Tweet({ tweet }) {
       toast.success(res.data.message);
     } catch (error) {
       toast.success(error.response.data.message);
+      console.log(error);
+    }
+  };
+
+  const bookMarkHandler = async (tweetId) => {
+    try {
+      const res = await axios.put(
+        `${USER_API_END_POINT}/bookmark/${tweetId}`,
+        { id: user?._id },
+        { withCredentials: true }
+      );
+
+      // ✅ Update Redux state: Modify ONLY the bookmark list for THIS user
+      const updatedBookmarks = user.bookMarks.includes(tweetId)
+        ? user.bookMarks.filter((id) => id !== tweetId) // Remove
+        : [...user.bookMarks, tweetId]; // Add
+
+      dispatch(getUser({ ...user, bookMarks: updatedBookmarks }));
+
+      toast.success(res.data.message);
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Something went wrong");
       console.log(error);
     }
   };
@@ -67,7 +91,7 @@ function Tweet({ tweet }) {
                 <div className="p-2 hover:bg-green-200 cursor-pointer rounded-full">
                   <FaRegComment size="20px" />
                 </div>
-                <p>0</p>
+                <p>{user.bookMarks.length}</p>
               </div>
               <div className="flex items-center">
                 <div
@@ -78,11 +102,14 @@ function Tweet({ tweet }) {
                 </div>
                 <p>{tweet?.like?.length}</p>
               </div>
-              <div className="flex items-center">
+              <div
+                onClick={() => bookMarkHandler(tweet?._id)}
+                className="flex items-center"
+              >
                 <div className="p-2 hover:bg-yellow-200 cursor-pointer rounded-full">
                   <FaRegBookmark size="20px" />
                 </div>
-                <p>0</p>
+                <p>{user?.bookMarks?.length || 0}</p>
               </div>
 
               {user?._id === tweet?.userID && (
