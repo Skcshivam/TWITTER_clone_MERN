@@ -6,11 +6,31 @@ import { IoIosNotifications } from "react-icons/io";
 import { FaBookmark } from "react-icons/fa6";
 import { RiLogoutCircleRLine } from "react-icons/ri";
 import twitter from "../Images/64cebe06bc8437de66e41758_X-EverythingApp-Logo-Black-Twitter.jpg";
-import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
+import toast from "react-hot-toast";
+import { USER_API_END_POINT } from "../utils/constant";
+import { getMyProfile, getOtherUsers, getUser } from "../redux/userSlice";
 
 function LeftSidebar() {
   const { user } = useSelector((store) => store.user);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const logoutHandler = async () => {
+    try {
+      const res = await axios.get(`${USER_API_END_POINT}/logout`);
+      dispatch(getUser(null));
+      dispatch(getOtherUsers(null));
+      dispatch(getMyProfile(null));
+      navigate("/login");
+      toast.success(res.data.message);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className="w-[20%]">
       <div>
@@ -64,7 +84,10 @@ function LeftSidebar() {
             <h1 className="font-bold text-lg ml-2">BookMarks</h1>
           </div>
 
-          <div className="flex items-center my-2 px-4 py-2 hover:bg-gray-200 rounded-full hover:cursor-pointer">
+          <div
+            onClick={logoutHandler}
+            className="flex items-center my-2 px-4 py-2 hover:bg-gray-200 rounded-full hover:cursor-pointer"
+          >
             <div>
               <RiLogoutCircleRLine size={"24px"} />
             </div>
