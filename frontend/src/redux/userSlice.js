@@ -25,7 +25,7 @@ const userSlice = createSlice({
           return itemId !== action.payload;
         });
       } else {
-        //follow
+        //follow button
         state.user.following.push(action.payload);
       }
     },
