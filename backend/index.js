@@ -23,7 +23,7 @@ app.use(
 app.use(express.json());
 app.use(cookieParser());
 const corsOptions = {
-  origin: "http://localhost:3000",
+  origin: "https://twitter-clone-mern-fa2s.onrender.com",
   credentials: true, // Allow credentials (cookies, authorization headers)
 
   extended: true,
