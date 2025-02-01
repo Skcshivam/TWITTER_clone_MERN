@@ -4,12 +4,15 @@ import databaseConnection from "./config/database.js";
 import cookieParser from "cookie-parser";
 import userRoute from "./routes/userRoute.js";
 import tweetRoute from "./routes/tweetRoute.js";
+import path from "path";
 import cors from "cors";
 
 dotenv.config();
 databaseConnection();
 
 const app = express();
+
+const _dirname = path.resolve();
 
 //middleware
 app.use(
@@ -30,6 +33,11 @@ app.use(cors(corsOptions));
 //api
 app.use("/api/v1/user", userRoute);
 app.use("/api/v1/tweet", tweetRoute);
+
+app.use(express.static(path.join(_dirname, "/frontend/build")));
+app.get("*", (_, res) => {
+  res.sendFile(path.resolve(_dirname, "frontend", "build", "index.html"));
+});
 
 // app.get("/home", (req, res) => {
 //   res.status(200).json({
